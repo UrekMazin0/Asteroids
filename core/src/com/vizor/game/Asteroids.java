@@ -22,8 +22,9 @@ public class Asteroids extends ApplicationAdapter {
 		background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		// ship
-		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
-									(float)Gdx.graphics.getHeight() /2));
+//		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
+//									(float)Gdx.graphics.getHeight() /2));
+		ship = new Ship(new Vector2(0, 0));
 	}
 
 	@Override
