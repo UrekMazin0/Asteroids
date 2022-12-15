@@ -6,15 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import sun.security.krb5.internal.crypto.DesCbcCrcEType;
+import com.vizor.game.shared.Object2D;
 
-public class Ship {
-    Texture texture;
+public class Ship extends Object2D {
     Sprite ship_sprite;
     int texture_width;
     int texture_height;
 
-    Vector2 current_pos;
+    Vector2 center;
     float velocity;
     Vector2 direction;
     final float MAX_VELOCITY = 200f;
@@ -33,16 +32,16 @@ public class Ship {
         texture_height = texture.getHeight();
         ship_sprite    = new Sprite(texture, 0,0,texture_width, texture_height);
 
-        current_pos = start_pos.sub((float)texture_width/2,
-                                    (float)texture_height/2);
+        center = start_pos.sub( (float)texture_width/2,
+                                (float)texture_height/2);
 
         direction = new Vector2(0,1);
         velocity  = 0f;
 
     }
     public void update(float dt){
-        current_pos.x += direction.x * velocity * dt;
-        current_pos.y += direction.y * velocity * dt;
+        center.x += direction.x * velocity * dt;
+        center.y += direction.y * velocity * dt;
 
         direction.rotateDeg(angle);
 
@@ -59,7 +58,7 @@ public class Ship {
 //                    0, 0,
 //                    texture_width, texture_height,
 //                    false, false);
-        ship_sprite.setPosition(current_pos.x , current_pos.y);
+        ship_sprite.setPosition(center.x , center.y);
         ship_sprite.setRotation(direction.angleDeg(Vector2.Y));
         ship_sprite.setScale(1f);
         ship_sprite.draw(batch);
