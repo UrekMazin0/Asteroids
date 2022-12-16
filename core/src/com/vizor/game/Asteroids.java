@@ -4,33 +4,41 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.vizor.game.player.Ship;
+import com.vizor.game.shared.BorderHandler;
+
+import javax.swing.border.Border;
 
 public class Asteroids extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
 	Ship ship;
+	BorderHandler borderHandler;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		borderHandler = new BorderHandler(Gdx.graphics.getWidth(),
+										  Gdx.graphics.getHeight());
 
 		// background
 		background = new Texture("background/black.png");
 		background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		// ship
-//		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
-//									(float)Gdx.graphics.getHeight() /2));
-		ship = new Ship(new Vector2(0, 0));
+		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
+									(float)Gdx.graphics.getHeight() /2));
+//		ship = new Ship(new Vector2(0, 0));
 	}
 
 	@Override
 	public void render () {
 		input_handler();
 		update();
+		borderHandler.CheckReflection(ship);
 
 		ScreenUtils.clear(1, 0, 0, 1);
 

@@ -9,28 +9,23 @@ import com.badlogic.gdx.math.Vector2;
 import com.vizor.game.shared.Object2D;
 
 public class Ship extends Object2D {
-    Sprite ship_sprite;
     int texture_width;
     int texture_height;
 
-    Vector2 center;
     float velocity;
     Vector2 direction;
-    final float MAX_VELOCITY = 200f;
+    final float MAX_VELOCITY = 400f;
     final float ACCELERATION = 20f;
     final float DECELERATION = 2f;
 
     float angle = 0;
-    final float ROTATE_TIME  = 0.33f;
-    final float ROTATE_ANGLE = 1f;
-
-    final float MAX_ANGLE = 10f;
+    final float ROTATE_ANGLE = 3f;
 
     public Ship(Vector2 start_pos){
         texture        = new Texture(Gdx.files.internal("ship/ship_1.png"));
         texture_width  = texture.getWidth();
         texture_height = texture.getHeight();
-        ship_sprite    = new Sprite(texture, 0,0,texture_width, texture_height);
+        sprite = new Sprite(texture, 0,0,texture_width, texture_height);
 
         center = start_pos.sub( (float)texture_width/2,
                                 (float)texture_height/2);
@@ -58,10 +53,10 @@ public class Ship extends Object2D {
 //                    0, 0,
 //                    texture_width, texture_height,
 //                    false, false);
-        ship_sprite.setPosition(center.x , center.y);
-        ship_sprite.setRotation(direction.angleDeg(Vector2.Y));
-        ship_sprite.setScale(1f);
-        ship_sprite.draw(batch);
+        sprite.setPosition(center.x , center.y);
+        sprite.setRotation(direction.angleDeg(Vector2.Y));
+        sprite.setScale(0.5f);
+        sprite.draw(batch);
 
     }
 
@@ -72,12 +67,11 @@ public class Ship extends Object2D {
             velocity += ACCELERATION;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            angle = ROTATE_ANGLE;
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.A)){
+           angle = Gdx.input.isKeyPressed(Input.Keys.D) ? -ROTATE_ANGLE : ROTATE_ANGLE;
         }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            angle = -ROTATE_ANGLE;
+        else{
+            angle = 0;
         }
     }
     public void dispode(){

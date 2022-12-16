@@ -8,4 +8,5 @@ public abstract class Object2D {
     public Vector2 center;
     public Texture texture;
     public Sprite sprite;
+
 }
