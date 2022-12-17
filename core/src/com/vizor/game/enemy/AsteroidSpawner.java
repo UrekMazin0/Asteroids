@@ -11,20 +11,24 @@ public class AsteroidSpawner implements Disposable {
     final int MAX_ASTEROIDS = 30;
     int space_width;
     int space_height;
-    public AsteroidSpawner(int width, int height){
+
+    final float RADIUS_AROUND_SHIP = 200;
+
+    public AsteroidSpawner(Vector2 ship_start_pos, int width, int height){
         asteroidContainer = new Asteroid[MAX_ASTEROIDS];
         space_width  = width;
         space_height = height;
 
-        _asteroidInit();
+        _asteroidInit(ship_start_pos);
     }
     
-    private void _asteroidInit(){
+    private void _asteroidInit(Vector2 ship){
         if(asteroidContainer == null)
             return;
 
         for (int i = 0; i < asteroidContainer.length; i++) {
-            asteroidContainer[i] = new Asteroid(_getRandomPosition());
+            Vector2 buffer = new Vector2(ship);
+            asteroidContainer[i] = new Asteroid(buffer.add(_getRandomVector()));
         }
     }
 
@@ -54,9 +58,9 @@ public class AsteroidSpawner implements Disposable {
         }
     }
 
-    private Vector2 _getRandomPosition(){
-        return new Vector2( MathUtils.random(20f, space_width),
-                            MathUtils.random(20f, space_height));
+    private Vector2 _getRandomVector(){
+        return new Vector2( MathUtils.random(RADIUS_AROUND_SHIP, space_width),
+                            MathUtils.random(RADIUS_AROUND_SHIP, space_height));
     }
 
     public Asteroid Get(int key){

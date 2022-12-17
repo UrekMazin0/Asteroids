@@ -2,6 +2,7 @@ package com.vizor.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -45,7 +46,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 									(float)Gdx.graphics.getHeight() /2));
 
 
-		asteroidSpawner = new AsteroidSpawner(Gdx.graphics.getWidth(),
+		asteroidSpawner = new AsteroidSpawner(ship.center,
+											  Gdx.graphics.getWidth(),
 											  Gdx.graphics.getHeight());
 
 		shapeRenderer = new ShapeRenderer();
@@ -57,15 +59,10 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		input_handler();
+		input();
 		update();
 
-		borderHandler.CheckReflection(ship);
-
-		for (int i = 0; i < asteroidSpawner.Length(); i++) {
-			borderHandler.CheckReflection(asteroidSpawner.Get(i));
-		}
-
+		//====================
 		ScreenUtils.clear(1, 0, 0, 1);
 
 		batch.begin();
@@ -82,6 +79,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		score.render(batch);
 
 		batch.end();
+		//====================
 
 		renderShape();
 	}
@@ -96,6 +94,11 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		fps.update(dt);
 		score.update(dt);
+
+		borderReflection();
+
+		if(collisionManager.updateCollision())
+			_gameEnd = true;
 	}
 
 	private void renderShape(){
@@ -108,10 +111,22 @@ public class AsteroidsGame extends ApplicationAdapter {
 		shapeRenderer.end();
 	}
 
-	public void input_handler(){
-		ship.input_handler();
+	private void input(){
+		ship.input();
+
+		// для того, что бы space нельзя было зажать
+		if(_gameEnd)
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+				_gameEnd = false;
 	}
 
+	private void borderReflection(){
+		borderHandler.CheckReflection(ship);
+
+		for (int i = 0; i < asteroidSpawner.Length(); i++) {
+			borderHandler.CheckReflection(asteroidSpawner.Get(i));
+		}
+	}
 	@Override
 	public void dispose () {
 		batch.dispose();

@@ -64,7 +64,7 @@ public class Ship extends Object2D implements Disposable {
         shapeRenderer.circle(collisionShape.x, collisionShape.y, 20);
     }
 
-    public void input_handler(){
+    public void input(){
         if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (velocity > MAX_VELOCITY)
                 return;
