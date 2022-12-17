@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.vizor.game.enemy.Asteroid;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
 
@@ -19,6 +20,7 @@ public class Asteroids extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
 	Ship ship;
+	Asteroid asteroid;
 	BorderHandler borderHandler;
 	ShapeRenderer shapeRenderer;
 	@Override
@@ -34,8 +36,8 @@ public class Asteroids extends ApplicationAdapter {
 		// ship
 		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
 									(float)Gdx.graphics.getHeight() /2));
-//		ship = new Ship(new Vector2(0, 0));
 
+		asteroid = new Asteroid(new Vector2(50, 50));
 		shapeRenderer = new ShapeRenderer();
 	}
 
@@ -55,6 +57,7 @@ public class Asteroids extends ApplicationAdapter {
 					Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		ship.render(batch);
+		asteroid.render(batch);
 
 		batch.end();
 

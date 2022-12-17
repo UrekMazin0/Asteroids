@@ -17,7 +17,6 @@ public class Ship extends Object2D {
     final float MAX_VELOCITY = 400f;
     final float ACCELERATION = 20f;
     final float DECELERATION = 2f;
-    final float SHIP_SCALE = 0.5f;
 
     float angle = 0;
     final float ROTATE_ANGLE = 3f;
@@ -33,6 +32,7 @@ public class Ship extends Object2D {
         direction = new Vector2(0,1);
         velocity  = 0f;
 
+        OBJECT_SCALE = 0.5f;
     }
     public void update(float dt){
         center.x += direction.x * velocity * dt;
@@ -54,7 +54,7 @@ public class Ship extends Object2D {
 //                    texture_width, texture_height,
 //                    false, false);
         sprite.setRotation(direction.angleDeg(Vector2.Y));
-        sprite.setScale(SHIP_SCALE);
+        sprite.setScale(OBJECT_SCALE);
         sprite.setPosition( center.x - texture_width /2,
                             center.y - texture_height/2);
         sprite.draw(batch);

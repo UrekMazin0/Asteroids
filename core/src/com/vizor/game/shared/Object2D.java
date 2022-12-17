@@ -9,4 +9,6 @@ public abstract class Object2D {
     public Texture texture;
     public Sprite sprite;
 
+    public float OBJECT_SCALE = 1f;
+
 }

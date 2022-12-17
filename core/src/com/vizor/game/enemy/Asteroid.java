@@ -16,8 +16,7 @@ public class Asteroid extends Object2D {
         texture_height = texture.getHeight();
         sprite = new Sprite(texture, 0,0,texture_width, texture_height);
 
-        center = start_pos.sub( (float)texture_width/2,
-                                (float)texture_height/2);
+        center = start_pos;
     }
 
     public void update(float dt){
@@ -25,7 +24,11 @@ public class Asteroid extends Object2D {
     }
 
     public void render(SpriteBatch batch){
-        sprite.setPosition(center.x, center.y);
+//        sprite.setRotation(direction.angleDeg(Vector2.Y));
+        sprite.setScale(OBJECT_SCALE);
+        sprite.setPosition( center.x - (float)texture_width /2,
+                            center.y - (float)texture_height/2);
+        sprite.draw(batch);
     }
 
     public void dispose(){
