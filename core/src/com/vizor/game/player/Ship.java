@@ -23,7 +23,7 @@ public class Ship extends Object2D {
     float angle = 0;
     final float ROTATE_ANGLE = 3f;
 
-    Circle collisionShape;
+    public Circle collisionShape;
     final float COLLISION_CIRCLE_RADIUS = 20f;
 
     public Ship(Vector2 start_pos){

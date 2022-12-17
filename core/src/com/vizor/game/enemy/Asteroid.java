@@ -23,7 +23,7 @@ public class Asteroid extends Object2D {
     float current_acce_time = 0;
     float velocity;
 
-    Circle collisionShape;
+    public Circle collisionShape;
     final float COLLISION_CIRCLE_RADIUS = 20;
 
     public Asteroid(Vector2 start_pos){

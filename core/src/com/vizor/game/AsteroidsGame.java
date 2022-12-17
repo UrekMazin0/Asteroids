@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.vizor.game.collision.CollisionManager;
 import com.vizor.game.enemy.AsteroidSpawner;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
@@ -19,6 +20,9 @@ public class AsteroidsGame extends ApplicationAdapter {
 	AsteroidSpawner asteroidSpawner;
 	BorderHandler borderHandler;
 	ShapeRenderer shapeRenderer;
+
+	CollisionManager collisionManager;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -38,6 +42,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 											  Gdx.graphics.getHeight());
 
 		shapeRenderer = new ShapeRenderer();
+		collisionManager = new CollisionManager(ship, asteroidSpawner);
 	}
 
 	@Override
@@ -71,6 +76,9 @@ public class AsteroidsGame extends ApplicationAdapter {
 		float dt = Gdx.graphics.getDeltaTime();
 		ship.update(dt);
 		asteroidSpawner.update(dt);
+
+		if(collisionManager.updateCollision())
+			System.out.println("GOVNO");
 	}
 
 	private void renderShape(){
