@@ -39,27 +39,23 @@ public class BorderHandler {
         if(obj.center.x > reflection_bound_right) {
             obj.center.x = space_width - obj.center.x + double_teleport_fix;
             obj.center.y += 50;
-            System.out.println("RIGHT");
             return;
         }
         if(obj.center.x < reflection_bound_left) {
             obj.center.x = space_width + -obj.center.x - double_teleport_fix;
             obj.center.y -= 50;
-            System.out.println("LEFT");
             return;
         }
 
         if(obj.center.y > reflection_bound_up) {
             obj.center.y = space_height - obj.center.y + double_teleport_fix;
             obj.center.x += 50;
-            System.out.println("UP");
             return;
         }
 
         if(obj.center.y < reflection_bound_down) {
             obj.center.y = space_height + -obj.center.y - double_teleport_fix;
             obj.center.x -= 50;
-            System.out.println("DOWN");
             return;
         }
 

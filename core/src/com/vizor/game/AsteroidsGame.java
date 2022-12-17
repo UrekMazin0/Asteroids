@@ -2,25 +2,22 @@ package com.vizor.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.vizor.game.enemy.Asteroid;
+import com.vizor.game.enemy.AsteroidSpawner;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
 
-import javax.swing.border.Border;
-
-public class Asteroids extends ApplicationAdapter {
+public class AsteroidsGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
 	Ship ship;
-	Asteroid asteroid;
+	AsteroidSpawner asteroidSpawner;
 	BorderHandler borderHandler;
 	ShapeRenderer shapeRenderer;
 	@Override
@@ -37,7 +34,9 @@ public class Asteroids extends ApplicationAdapter {
 		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
 									(float)Gdx.graphics.getHeight() /2));
 
-		asteroid = new Asteroid(new Vector2(50, 50));
+		asteroidSpawner = new AsteroidSpawner(Gdx.graphics.getWidth(),
+											  Gdx.graphics.getHeight());
+
 		shapeRenderer = new ShapeRenderer();
 	}
 
@@ -45,7 +44,11 @@ public class Asteroids extends ApplicationAdapter {
 	public void render () {
 		input_handler();
 		update();
+
 		borderHandler.CheckReflection(ship);
+		for (int i = 0; i < asteroidSpawner.Length(); i++) {
+			borderHandler.CheckReflection(asteroidSpawner.Get(i));
+		}
 
 		ScreenUtils.clear(1, 0, 0, 1);
 
@@ -57,22 +60,23 @@ public class Asteroids extends ApplicationAdapter {
 					Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		ship.render(batch);
-		asteroid.render(batch);
+		asteroidSpawner.render(batch);
 
 		batch.end();
 
-		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-		shapeRenderer.circle(ship.center.x, ship.center.y, 50);
-		shapeRenderer.rect(ship.center.x - ship.texture.getWidth()/2,
-							ship.center.y - ship.texture.getHeight()/2,
-							ship.texture.getWidth(), ship.texture.getHeight());
-		shapeRenderer.end();
+//		shapeRenderer.setColor(Color.RED);
+//		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//		shapeRenderer.circle(ship.center.x, ship.center.y, 50);
+//		shapeRenderer.rect(ship.center.x - ship.texture.getWidth()/2,
+//							ship.center.y - ship.texture.getHeight()/2,
+//							ship.texture.getWidth(), ship.texture.getHeight());
+//		shapeRenderer.end();
 	}
 
 	public void update(){
 		float dt = Gdx.graphics.getDeltaTime();
 		ship.update(dt);
+		asteroidSpawner.update(dt);
 	}
 	public void LoadTextures()
 	{
@@ -87,5 +91,7 @@ public class Asteroids extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		background.dispose();
+		asteroidSpawner.dispose();
+		ship.dispode();
 	}
 }

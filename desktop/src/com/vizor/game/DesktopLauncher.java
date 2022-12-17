@@ -2,7 +2,6 @@ package com.vizor.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.vizor.game.Asteroids;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -13,7 +12,8 @@ public class DesktopLauncher {
 //		config.setWindowedMode(800, 400);
 		config.useVsync(true);
 		config.setMaximized(true);
+		config.setResizable(false);
 		config.setTitle("VizorAsteroids");
-		new Lwjgl3Application(new Asteroids(), config);
+		new Lwjgl3Application(new AsteroidsGame(), config);
 	}
 }
