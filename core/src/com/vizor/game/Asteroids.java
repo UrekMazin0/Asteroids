@@ -2,8 +2,11 @@ package com.vizor.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -17,7 +20,7 @@ public class Asteroids extends ApplicationAdapter {
 	Texture background;
 	Ship ship;
 	BorderHandler borderHandler;
-
+	ShapeRenderer shapeRenderer;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -32,6 +35,8 @@ public class Asteroids extends ApplicationAdapter {
 		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
 									(float)Gdx.graphics.getHeight() /2));
 //		ship = new Ship(new Vector2(0, 0));
+
+		shapeRenderer = new ShapeRenderer();
 	}
 
 	@Override
@@ -52,6 +57,14 @@ public class Asteroids extends ApplicationAdapter {
 		ship.render(batch);
 
 		batch.end();
+
+		shapeRenderer.setColor(Color.RED);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+		shapeRenderer.circle(ship.center.x, ship.center.y, 50);
+		shapeRenderer.rect(ship.center.x - ship.texture.getWidth()/2,
+							ship.center.y - ship.texture.getHeight()/2,
+							ship.texture.getWidth(), ship.texture.getHeight());
+		shapeRenderer.end();
 	}
 
 	public void update(){
