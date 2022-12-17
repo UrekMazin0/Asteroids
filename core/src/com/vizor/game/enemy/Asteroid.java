@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.vizor.game.shared.Object2D;
@@ -20,6 +22,10 @@ public class Asteroid extends Object2D {
     final float ACCELERATION_TIME = 1f;
     float current_acce_time = 0;
     float velocity;
+
+    Circle collisionShape;
+    final float COLLISION_CIRCLE_RADIUS = 20;
+
     public Asteroid(Vector2 start_pos){
         texture = new Texture(Gdx.files.internal("meteor/medium_med.png"));
         texture_width = texture.getWidth();
@@ -34,17 +40,17 @@ public class Asteroid extends Object2D {
                 .nor();
 
         velocity = MathUtils.random(50f, 170f);
+
+        collisionShape = new Circle(center.x, center.y, COLLISION_CIRCLE_RADIUS);
     }
 
     public void update(float dt){
         center.x += direction.x * velocity * dt;
         center.y += direction.y * velocity * dt;
 
-        current_acce_time += dt;
-        if(current_acce_time >= ACCELERATION_TIME){
-            velocity += ACCELERATION;
-            current_acce_time = 0;
-        }
+        velocity += dt;
+
+        collisionShape.setPosition(center);
     }
 
     public void render(SpriteBatch batch){
@@ -53,6 +59,10 @@ public class Asteroid extends Object2D {
         sprite.setPosition( center.x - (float)texture_width /2,
                             center.y - (float)texture_height/2);
         sprite.draw(batch);
+    }
+
+    public void renderCollisionShape(ShapeRenderer shapeRenderer){
+        shapeRenderer.circle(collisionShape.x, collisionShape.y, 20);
     }
 
     public void dispose(){

@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.vizor.game.shared.Object2D;
 
@@ -21,6 +23,9 @@ public class Ship extends Object2D {
     float angle = 0;
     final float ROTATE_ANGLE = 3f;
 
+    Circle collisionShape;
+    final float COLLISION_CIRCLE_RADIUS = 20f;
+
     public Ship(Vector2 start_pos){
         texture        = new Texture(Gdx.files.internal("ship/ship_1.png"));
         texture_width  = texture.getWidth();
@@ -33,10 +38,14 @@ public class Ship extends Object2D {
         velocity  = 0f;
 
         OBJECT_SCALE = 0.5f;
+
+        collisionShape = new Circle(center.x, center.y, COLLISION_CIRCLE_RADIUS);
+        System.out.println(collisionShape.radius);
     }
     public void update(float dt){
         center.x += direction.x * velocity * dt;
         center.y += direction.y * velocity * dt;
+        collisionShape.setPosition(center);
 
         direction.rotateDeg(angle);
 
@@ -44,21 +53,15 @@ public class Ship extends Object2D {
     }
 
     public void render(SpriteBatch batch){
-//        batch.draw( texture,
-//                    current_pos.x - texture_width/2, current_pos.y - texture_height/2,
-//                    current_pos.x, current_pos.y,
-//                    texture_width, texture_height,
-//                    1f, 1f,
-//                    direction.angleDeg(Vector2.Y),
-//                    0, 0,
-//                    texture_width, texture_height,
-//                    false, false);
         sprite.setRotation(direction.angleDeg(Vector2.Y));
         sprite.setScale(OBJECT_SCALE);
-        sprite.setPosition( center.x - texture_width /2,
+        sprite.setPosition( center.x - texture_width/2,
                             center.y - texture_height/2);
         sprite.draw(batch);
+    }
 
+    public void renderCollisionShape(ShapeRenderer shapeRenderer){
+        shapeRenderer.circle(collisionShape.x, collisionShape.y, 20);
     }
 
     public void input_handler(){
@@ -75,7 +78,7 @@ public class Ship extends Object2D {
             angle = 0;
         }
     }
-    public void dispode(){
+    public void dispose(){
         texture.dispose();
     }
 }

@@ -1,6 +1,7 @@
 package com.vizor.game.enemy;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -43,6 +44,12 @@ public class AsteroidSpawner {
         for (Asteroid item: asteroidContainer) {
             if (item !=null)
                 item.render(batch);
+        }
+    }
+
+    public void renderCollisionShape(ShapeRenderer shapeRenderer){
+        for (Asteroid item: asteroidContainer) {
+            item.renderCollisionShape(shapeRenderer);
         }
     }
 

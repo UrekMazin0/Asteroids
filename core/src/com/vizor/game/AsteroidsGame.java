@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.vizor.game.enemy.Asteroid;
 import com.vizor.game.enemy.AsteroidSpawner;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
@@ -33,6 +32,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		// ship
 		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
 									(float)Gdx.graphics.getHeight() /2));
+
 
 		asteroidSpawner = new AsteroidSpawner(Gdx.graphics.getWidth(),
 											  Gdx.graphics.getHeight());
@@ -64,13 +64,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		batch.end();
 
-//		shapeRenderer.setColor(Color.RED);
-//		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//		shapeRenderer.circle(ship.center.x, ship.center.y, 50);
-//		shapeRenderer.rect(ship.center.x - ship.texture.getWidth()/2,
-//							ship.center.y - ship.texture.getHeight()/2,
-//							ship.texture.getWidth(), ship.texture.getHeight());
-//		shapeRenderer.end();
+		renderShape();
 	}
 
 	public void update(){
@@ -78,9 +72,15 @@ public class AsteroidsGame extends ApplicationAdapter {
 		ship.update(dt);
 		asteroidSpawner.update(dt);
 	}
-	public void LoadTextures()
-	{
 
+	private void renderShape(){
+		shapeRenderer.setColor(Color.RED);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+		ship.renderCollisionShape(shapeRenderer);
+		asteroidSpawner.renderCollisionShape(shapeRenderer);
+
+		shapeRenderer.end();
 	}
 
 	public void input_handler(){
@@ -92,6 +92,6 @@ public class AsteroidsGame extends ApplicationAdapter {
 		batch.dispose();
 		background.dispose();
 		asteroidSpawner.dispose();
-		ship.dispode();
+		ship.dispose();
 	}
 }
