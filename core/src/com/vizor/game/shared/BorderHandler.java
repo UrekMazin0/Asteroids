@@ -58,20 +58,5 @@ public class BorderHandler {
             obj.center.x -= 50;
             return;
         }
-
-        // check all statements
-//        if( obj.center.x >= reflection_bound_right ||
-//            obj.center.y >= reflection_bound_up){
-//            System.out.println("X Y UP");
-//            obj.center.x = space_width - obj.center.x;
-//            obj.center.y = space_height - obj.center.y;
-//        }
-//
-//        if( obj.center.x <= reflection_bound_left ||
-//            obj.center.y <= reflection_bound_down){
-//            System.out.println("X Y DOWN");
-//            obj.center.x = space_width + -(obj.center.x);
-//            obj.center.y = space_height + -(obj.center.y);
-//        }
     }
 }

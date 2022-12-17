@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 import com.vizor.game.shared.Object2D;
 
-public class Asteroid extends Object2D {
+public class Asteroid extends Object2D implements Disposable {
     int texture_width;
     int texture_height;
 
@@ -64,6 +65,6 @@ public class Asteroid extends Object2D {
     }
 
     public void dispose(){
-        texture.dispose();;
+        texture.dispose();
     }
 }

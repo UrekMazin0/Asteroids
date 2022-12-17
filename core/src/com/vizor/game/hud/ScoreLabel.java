@@ -3,8 +3,9 @@ package com.vizor.game.hud;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 
-public class ScoreLabel {
+public class ScoreLabel implements Disposable {
     BitmapFont font;
     public float score = 0;
 

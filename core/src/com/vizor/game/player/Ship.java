@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 import com.vizor.game.shared.Object2D;
 
-public class Ship extends Object2D {
+public class Ship extends Object2D implements Disposable {
     int texture_width;
     int texture_height;
 
