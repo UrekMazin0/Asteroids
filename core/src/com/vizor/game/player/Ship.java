@@ -71,12 +71,16 @@ public class Ship extends Object2D {
             velocity += ACCELERATION;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.A)){
-           angle = Gdx.input.isKeyPressed(Input.Keys.D) ? -ROTATE_ANGLE : ROTATE_ANGLE;
-        }
-        else{
-            angle = 0;
-        }
+        float A = Gdx.input.isKeyPressed(Input.Keys.A) ? 1 : 0;
+        float D = Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0;
+        angle = (A - D) * ROTATE_ANGLE;
+
+//        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.A)){
+//           angle = Gdx.input.isKeyPressed(Input.Keys.D) ? -ROTATE_ANGLE : ROTATE_ANGLE;
+//        }
+//        else{
+//            angle = 0;
+//        }
     }
     public void dispose(){
         texture.dispose();
