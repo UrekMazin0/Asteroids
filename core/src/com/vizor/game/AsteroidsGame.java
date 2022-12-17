@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.vizor.game.collision.CollisionManager;
 import com.vizor.game.enemy.AsteroidSpawner;
+import com.vizor.game.hud.FpsLabel;
+import com.vizor.game.hud.ScoreLabel;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
 
@@ -22,6 +24,11 @@ public class AsteroidsGame extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 
 	CollisionManager collisionManager;
+
+	FpsLabel fps;
+	ScoreLabel score;
+
+	private boolean _gameEnd = false;
 
 	@Override
 	public void create () {
@@ -43,6 +50,9 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		shapeRenderer = new ShapeRenderer();
 		collisionManager = new CollisionManager(ship, asteroidSpawner);
+
+		fps = new FpsLabel();
+		score = new ScoreLabel();
 	}
 
 	@Override
@@ -51,6 +61,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		update();
 
 		borderHandler.CheckReflection(ship);
+
 		for (int i = 0; i < asteroidSpawner.Length(); i++) {
 			borderHandler.CheckReflection(asteroidSpawner.Get(i));
 		}
@@ -64,8 +75,11 @@ public class AsteroidsGame extends ApplicationAdapter {
 					0, 0,
 					Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		ship.render(batch);
 		asteroidSpawner.render(batch);
+		ship.render(batch);
+
+		fps.render(batch);
+		score.render(batch);
 
 		batch.end();
 
@@ -73,12 +87,15 @@ public class AsteroidsGame extends ApplicationAdapter {
 	}
 
 	public void update(){
+		if(_gameEnd)
+			return;
+
 		float dt = Gdx.graphics.getDeltaTime();
 		ship.update(dt);
 		asteroidSpawner.update(dt);
 
-		if(collisionManager.updateCollision())
-			System.out.println("GOVNO");
+		fps.update(dt);
+		score.update(dt);
 	}
 
 	private void renderShape(){
@@ -101,5 +118,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		background.dispose();
 		asteroidSpawner.dispose();
 		ship.dispose();
+		fps.dispose();
+		score.dispose();
 	}
 }

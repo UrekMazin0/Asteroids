@@ -27,12 +27,12 @@ public class Ship extends Object2D {
     final float COLLISION_CIRCLE_RADIUS = 20f;
 
     public Ship(Vector2 start_pos){
+        center = new Vector2(start_pos);
+
         texture        = new Texture(Gdx.files.internal("ship/ship_1.png"));
         texture_width  = texture.getWidth();
         texture_height = texture.getHeight();
         sprite = new Sprite(texture, 0,0,texture_width, texture_height);
-
-        center = new Vector2(start_pos);
 
         direction = new Vector2(0,1);
         velocity  = 0f;
@@ -40,7 +40,6 @@ public class Ship extends Object2D {
         OBJECT_SCALE = 0.5f;
 
         collisionShape = new Circle(center.x, center.y, COLLISION_CIRCLE_RADIUS);
-        System.out.println(collisionShape.radius);
     }
     public void update(float dt){
         center.x += direction.x * velocity * dt;
@@ -74,13 +73,6 @@ public class Ship extends Object2D {
         float A = Gdx.input.isKeyPressed(Input.Keys.A) ? 1 : 0;
         float D = Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0;
         angle = (A - D) * ROTATE_ANGLE;
-
-//        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.A)){
-//           angle = Gdx.input.isKeyPressed(Input.Keys.D) ? -ROTATE_ANGLE : ROTATE_ANGLE;
-//        }
-//        else{
-//            angle = 0;
-//        }
     }
     public void dispose(){
         texture.dispose();

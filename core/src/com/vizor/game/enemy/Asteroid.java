@@ -14,32 +14,28 @@ public class Asteroid extends Object2D {
     int texture_width;
     int texture_height;
 
+    float velocity;
     Vector2 direction;
 
     final float MAX_VELOCITY = 250f;
-    final float ACCELERATION = 1f;
-
-    final float ACCELERATION_TIME = 1f;
-    float current_acce_time = 0;
-    float velocity;
+    final float ACCELERATION = 2f;
 
     public Circle collisionShape;
     final float COLLISION_CIRCLE_RADIUS = 20;
 
     public Asteroid(Vector2 start_pos){
+        center = start_pos;
+
         texture = new Texture(Gdx.files.internal("meteor/medium_med.png"));
         texture_width = texture.getWidth();
         texture_height = texture.getHeight();
-
         sprite = new Sprite(texture, 0,0,texture_width, texture_height);
-
-        center = start_pos;
 
         direction = new Vector2(Vector2.Y)
                 .rotateDeg(MathUtils.random(0, 360))
                 .nor();
 
-        velocity = MathUtils.random(50f, 170f);
+        velocity = MathUtils.random(150f, 200f);
 
         collisionShape = new Circle(center.x, center.y, COLLISION_CIRCLE_RADIUS);
     }
@@ -48,7 +44,9 @@ public class Asteroid extends Object2D {
         center.x += direction.x * velocity * dt;
         center.y += direction.y * velocity * dt;
 
-        velocity += dt;
+
+        if(!((velocity + dt * ACCELERATION) < MAX_VELOCITY))
+            velocity += dt*ACCELERATION;
 
         collisionShape.setPosition(center);
     }

@@ -12,10 +12,10 @@ public class AsteroidSpawner {
     int space_height;
     public AsteroidSpawner(int width, int height){
         asteroidContainer = new Asteroid[MAX_ASTEROIDS];
-        _asteroidInit();
-
         space_width  = width;
         space_height = height;
+
+        _asteroidInit();
     }
     
     private void _asteroidInit(){
