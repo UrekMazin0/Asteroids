@@ -1,6 +1,7 @@
 package com.vizor.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.vizor.game.collision.CollisionManager;
 import com.vizor.game.enemy.AsteroidSpawner;
 import com.vizor.game.hud.FpsLabel;
+import com.vizor.game.hud.GameOverLabel;
 import com.vizor.game.hud.ScoreLabel;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
@@ -28,7 +30,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 	FpsLabel fps;
 	ScoreLabel score;
-
+	GameOverLabel gameOver;
 	private boolean _gameEnd = false;
 
 	@Override
@@ -55,6 +57,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		fps = new FpsLabel();
 		score = new ScoreLabel();
+		gameOver = new GameOverLabel(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
@@ -66,6 +69,12 @@ public class AsteroidsGame extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 
 		batch.begin();
+
+		if(_gameEnd) {
+			gameOver.render(batch);
+			batch.end();
+			return;
+		}
 
 		batch.draw(background,
 					0, 0,
@@ -116,8 +125,17 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		// для того, что бы space нельзя было зажать
 		if(_gameEnd)
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				restart();
 				_gameEnd = false;
+			}
+	}
+
+	private void restart(){
+		ship.center.x = Gdx.graphics.getWidth()/2;
+		ship.center.y = Gdx.graphics.getHeight()/2;
+
+		asteroidSpawner.restart();
 	}
 
 	private void borderReflection(){

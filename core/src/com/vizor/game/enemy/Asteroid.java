@@ -60,6 +60,10 @@ public class Asteroid extends Object2D implements Disposable {
         sprite.draw(batch);
     }
 
+    public void restart(){
+        velocity = MathUtils.random(150f, 200f);
+    }
+
     public void renderCollisionShape(ShapeRenderer shapeRenderer){
         shapeRenderer.circle(collisionShape.x, collisionShape.y, 20);
     }
