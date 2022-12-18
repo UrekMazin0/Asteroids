@@ -70,11 +70,6 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		batch.begin();
 
-		if(_gameEnd) {
-			gameOver.render(batch);
-			batch.end();
-			return;
-		}
 
 		batch.draw(background,
 					0, 0,
@@ -86,6 +81,9 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		fps.render(batch);
 		score.render(batch);
+
+		if(_gameEnd)
+			gameOver.render(batch);
 
 		batch.end();
 		//====================

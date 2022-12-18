@@ -50,11 +50,11 @@ public class Asteroid extends Object2D implements Disposable {
         if(!((velocity + dt * ACCELERATION) < MAX_VELOCITY))
             velocity += dt*ACCELERATION;
 
+        sprite.rotate(velocity / ROTATE_FACTOR);
         collisionShape.setPosition(center);
     }
 
     public void render(SpriteBatch batch){
-        sprite.rotate(velocity / ROTATE_FACTOR);
         sprite.setScale(OBJECT_SCALE);
         sprite.setPosition( center.x - (float)texture_width /2,
                             center.y - (float)texture_height/2);
