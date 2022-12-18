@@ -113,7 +113,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		_borderReflection();
 
-		if(collisionManager.updateCollision()) {
+		if(collisionManager.updateCollision(dt)) {
 			backgroundMusic.stop();
 			loseSound.play(1f);
 			_gameEnd = true;

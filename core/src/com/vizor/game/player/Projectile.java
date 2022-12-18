@@ -15,7 +15,7 @@ public class Projectile extends Object2D implements Disposable {
     Vector2 center;
 
     float velocity = 250f;
-    Circle collisionShape;
+    public Circle collisionShape;
     final float COLLISION_CIRCLE_RADIUS = 3f;
     public Projectile(Vector2 start_pos, Vector2 _direction){
         texture = new Texture(Gdx.files.internal("ship/militor/laser.png"));

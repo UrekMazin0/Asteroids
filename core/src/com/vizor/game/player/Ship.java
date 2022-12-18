@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.vizor.game.shared.Object2D;
 
 public abstract class Ship extends Object2D implements Disposable {
+    public Projectile projectile;
     float velocity;
     Vector2 direction;
     final float MAX_VELOCITY = 400f;

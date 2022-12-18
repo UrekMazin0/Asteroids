@@ -14,7 +14,10 @@ public class Militor extends Ship{
     final int MAX_HEALTH = 1;
 
     final float MAX_VELOCITY = 170f;
-    ArrayList<Projectile> lasers;
+
+    float current_gun_cooldown = 5f;
+    final float GUN_COOLDOWN = 5f;
+    boolean gun_on_cooldown = false;
 
     public Militor(Vector2 start_pos){
         super(start_pos);
@@ -26,8 +29,6 @@ public class Militor extends Ship{
         sprite.setScale(OBJECT_SCALE);
 
         health = MAX_HEALTH;
-
-        lasers = new ArrayList<>();
     }
 
     @Override
@@ -38,16 +39,21 @@ public class Militor extends Ship{
         collisionShape.setPosition(center);
 
         Vector2 mouse_on_screen = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-        Vector2 mouse_by_ship = mouse_on_screen.sub(center);
-
-        direction = mouse_by_ship.nor();
+        direction = mouse_on_screen.sub(center).nor();
 
         sprite.setRotation(direction.angleDeg(Vector2.Y));
 
         velocity = velocity - DECELERATION < 0 ? 0 : velocity - DECELERATION;
 
-        for (Projectile laser: lasers) {
-            laser.update(dt);
+        if(projectile != null)
+            projectile.update(dt);
+
+        if(gun_on_cooldown){
+            current_gun_cooldown -= dt;
+            gun_on_cooldown = !(current_gun_cooldown <= 0);
+        }
+        else {
+            current_gun_cooldown = GUN_COOLDOWN;
         }
     }
 
@@ -55,9 +61,8 @@ public class Militor extends Ship{
     public void render(SpriteBatch batch){
         super.render(batch);
 
-        for (Projectile laser: lasers) {
-            laser.render(batch);
-        }
+        if(projectile != null)
+            projectile.render(batch);
     }
 
     @Override
@@ -68,8 +73,9 @@ public class Militor extends Ship{
             velocity += ACCELERATION;
         }
 
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-            lasers.add(new Projectile(new Vector2(center), new Vector2(direction)));
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !gun_on_cooldown){
+            projectile = new Projectile(new Vector2(center), new Vector2(direction));
+            gun_on_cooldown = true;
         }
     }
 }

@@ -12,16 +12,25 @@ public class CollisionManager {
     AsteroidSpawner asteroids;
 
     ArrayList<Projectile> lasers;
+
     public CollisionManager(Ship sh, AsteroidSpawner spawner){
         ship      = sh;
         asteroids = spawner;
         lasers    = new ArrayList<>();
     }
 
-    public boolean updateCollision(){
+    public boolean updateCollision(float dt){
+
         for (int i = 0; i < asteroids.Length(); i++){
             if(asteroids.asteroidContainer[i] == null)
                 continue;
+
+            if(ship.projectile != null)
+                if(ship.projectile.collisionShape.overlaps(asteroids.asteroidContainer[i].collisionShape)) {
+                    asteroids.destroyAsteroid(i);
+                    ship.projectile = null;
+                    return false;
+                }
 
             if(ship.collisionShape.overlaps(asteroids.asteroidContainer[i].collisionShape)) {
                 asteroids.destroyAsteroid(i);
@@ -29,5 +38,9 @@ public class CollisionManager {
             }
         }
         return false;
+    }
+
+    public void AddProjectile(Projectile projectile){
+        lasers.add(projectile);
     }
 }
