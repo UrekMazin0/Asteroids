@@ -1,9 +1,10 @@
 package com.vizor.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -33,6 +34,10 @@ public class AsteroidsGame extends ApplicationAdapter {
 	GameOverLabel gameOver;
 	private boolean _gameEnd = false;
 
+	Sound loseSound;
+	Music backgroundMusic;
+	final float backMusicVolume = 0.1f;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -58,6 +63,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 		fps = new FpsLabel();
 		score = new ScoreLabel();
 		gameOver = new GameOverLabel(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		_loadSounds();
 	}
 
 	@Override
@@ -102,10 +109,13 @@ public class AsteroidsGame extends ApplicationAdapter {
 		fps.update(dt);
 		score.update(dt);
 
-		borderReflection();
+		_borderReflection();
 
-		if(collisionManager.updateCollision())
+		if(collisionManager.updateCollision()) {
+			backgroundMusic.stop();
+			loseSound.play(1f);
 			_gameEnd = true;
+		}
 	}
 
 	private void renderShape(){
@@ -123,10 +133,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		// для того, что бы space нельзя было зажать
 		if(_gameEnd)
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
 				restart();
-				_gameEnd = false;
-			}
 	}
 
 	private void restart(){
@@ -135,15 +143,27 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		asteroidSpawner.restart();
 		score.restart();
+
+		backgroundMusic.play();
+		_gameEnd = false;
 	}
 
-	private void borderReflection(){
+	private void _borderReflection(){
 		borderHandler.CheckReflection(ship);
 
 		for (int i = 0; i < asteroidSpawner.Length(); i++) {
 			borderHandler.CheckReflection(asteroidSpawner.Get(i));
 		}
 	}
+
+	private void _loadSounds(){
+		loseSound = Gdx.audio.newSound(Gdx.files.internal("sound/sfx_lose.ogg"));
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/background.mp3"));
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(backMusicVolume);
+		backgroundMusic.play();
+	}
+
 	@Override
 	public void dispose () {
 		batch.dispose();
@@ -152,5 +172,6 @@ public class AsteroidsGame extends ApplicationAdapter {
 		ship.dispose();
 		fps.dispose();
 		score.dispose();
+		loseSound.dispose();
 	}
 }
