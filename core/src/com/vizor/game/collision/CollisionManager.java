@@ -8,7 +8,7 @@ import com.vizor.game.player.Ship;
 import java.util.ArrayList;
 
 public class CollisionManager {
-    Ship ship;
+    public Ship ship;
     AsteroidSpawner asteroids;
 
     ArrayList<Projectile> lasers;

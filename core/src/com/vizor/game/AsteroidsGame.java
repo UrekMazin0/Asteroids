@@ -25,6 +25,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
 	Ship ship;
+	Grond grond;
+	Militor militor;
 	AsteroidSpawner asteroidSpawner;
 	BorderHandler borderHandler;
 	ShapeRenderer shapeRenderer;
@@ -40,6 +42,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 	Music backgroundMusic;
 	final float backMusicVolume = 0.1f;
 
+	int restart_count = 0;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -51,10 +55,14 @@ public class AsteroidsGame extends ApplicationAdapter {
 		background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		// ship
-		ship = new Militor(new Vector2((float)Gdx.graphics.getWidth()  /2,
-									 (float)Gdx.graphics.getHeight() /2));
+		grond = new Grond(new Vector2((float)Gdx.graphics.getWidth()  /2,
+									  (float)Gdx.graphics.getHeight() /2));
+		militor = new Militor(new Vector2((float)Gdx.graphics.getWidth()  /2,
+										  (float)Gdx.graphics.getHeight() /2));
 
+		ship = grond;
 
+		// asteroids
 		asteroidSpawner = new AsteroidSpawner(ship,
 											  Gdx.graphics.getWidth(),
 											  Gdx.graphics.getHeight());
@@ -62,6 +70,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		collisionManager = new CollisionManager(ship, asteroidSpawner);
 
+		// hud
 		fps = new FpsLabel();
 		score = new ScoreLabel();
 		gameOver = new GameOverLabel(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -145,6 +154,11 @@ public class AsteroidsGame extends ApplicationAdapter {
 		score.restart();
 
 		backgroundMusic.play();
+
+		restart_count++;
+		ship = restart_count % 2 == 0 ? grond : militor;
+		collisionManager.ship = ship;
+
 		_gameEnd = false;
 	}
 

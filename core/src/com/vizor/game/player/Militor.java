@@ -78,4 +78,18 @@ public class Militor extends Ship{
             gun_on_cooldown = true;
         }
     }
+
+    @Override
+    public void restart(){
+        center.x = Gdx.graphics.getWidth()/2;
+        center.y = Gdx.graphics.getHeight()/2;
+
+        health = MAX_HEALTH;
+    }
+
+    @Override
+    public void dispose(){
+        texture.dispose();
+        projectile.dispose();
+    }
 }

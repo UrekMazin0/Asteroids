@@ -19,7 +19,7 @@ public class Asteroid extends Object2D implements Disposable {
     Vector2 direction;
 
     final float MAX_VELOCITY = 250f;
-    final float ACCELERATION = 2f;
+    final float ACCELERATION = 5f;
 
     public Circle collisionShape;
     final float ROTATE_FACTOR = 62.5f;
