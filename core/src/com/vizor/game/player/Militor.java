@@ -2,6 +2,7 @@ package com.vizor.game.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,8 @@ public class Militor extends Ship{
     final float GUN_COOLDOWN = 5f;
     boolean gun_on_cooldown = false;
 
+    Sound gun_sound;
+
     public Militor(Vector2 start_pos){
         super(start_pos);
 
@@ -27,6 +30,8 @@ public class Militor extends Ship{
         texture_height = texture.getHeight();
         sprite         = new Sprite(texture, 0,0,texture_width, texture_height);
         sprite.setScale(OBJECT_SCALE);
+
+        gun_sound = Gdx.audio.newSound(Gdx.files.internal("ship/militor/shot.wav"));
 
         health = MAX_HEALTH;
     }
@@ -75,6 +80,7 @@ public class Militor extends Ship{
 
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !gun_on_cooldown){
             projectile = new Projectile(new Vector2(center), new Vector2(direction));
+            gun_sound.play(0.5f);
             gun_on_cooldown = true;
         }
     }
@@ -85,5 +91,11 @@ public class Militor extends Ship{
         center.y = Gdx.graphics.getHeight()/2;
 
         health = MAX_HEALTH;
+    }
+
+    @Override
+    public void dispose(){
+        super.dispose();
+        gun_sound.dispose();
     }
 }

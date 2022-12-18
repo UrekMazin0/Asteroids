@@ -109,7 +109,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 		batch.end();
 		//====================
 
-		renderShape();
+		// расскоментировать для отображения collision shapes
+//		renderShape();
 	}
 
 	public void update(){
