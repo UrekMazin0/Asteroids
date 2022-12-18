@@ -1,5 +1,6 @@
 package com.vizor.game.hud;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,8 @@ public class GameOverLabel implements Disposable {
         height = h;
 
         font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().setLineHeight(2);
         font.getData().setScale(4f);
 
         layout = new GlyphLayout(font, gameOver);

@@ -23,10 +23,13 @@ import com.vizor.game.shared.BorderHandler;
 
 public class AsteroidsGame extends ApplicationAdapter {
 	SpriteBatch batch;
+
 	Texture background;
+
 	Ship ship;
 	Grond grond;
 	Militor militor;
+
 	AsteroidSpawner asteroidSpawner;
 	BorderHandler borderHandler;
 	ShapeRenderer shapeRenderer;

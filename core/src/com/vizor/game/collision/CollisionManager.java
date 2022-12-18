@@ -11,12 +11,9 @@ public class CollisionManager {
     public Ship ship;
     AsteroidSpawner asteroids;
 
-    ArrayList<Projectile> lasers;
-
     public CollisionManager(Ship sh, AsteroidSpawner spawner){
         ship      = sh;
         asteroids = spawner;
-        lasers    = new ArrayList<>();
     }
 
     public boolean updateCollision(float dt){
@@ -38,9 +35,5 @@ public class CollisionManager {
             }
         }
         return false;
-    }
-
-    public void AddProjectile(Projectile projectile){
-        lasers.add(projectile);
     }
 }

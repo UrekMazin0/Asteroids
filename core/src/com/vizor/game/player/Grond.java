@@ -13,7 +13,7 @@ public class Grond extends Ship{
     int shield_height;
     Sprite shield_sprite;
 
-    final int MAX_HEALTH = 3;
+    final int MAX_HEALTH = 2;
 
     float shieldRecoveryTimer = 0f;
     final float RECOVERY_TIMER = 5f;

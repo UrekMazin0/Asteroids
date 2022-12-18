@@ -86,10 +86,4 @@ public class Militor extends Ship{
 
         health = MAX_HEALTH;
     }
-
-    @Override
-    public void dispose(){
-        texture.dispose();
-        projectile.dispose();
-    }
 }
