@@ -7,17 +7,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.vizor.game.player.Ship;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AsteroidSpawner implements Disposable {
-    Asteroid[] asteroidContainer;
+    public Asteroid[] asteroidContainer;
     final int MAX_ASTEROIDS = 30;
+
     int space_width;
     int space_height;
 
-    private Vector2 ship_start_position;
     final float RADIUS_AROUND_SHIP = 200;
 
     Texture big_brown_texture;
@@ -27,12 +30,18 @@ public class AsteroidSpawner implements Disposable {
     Map<Integer, Texture> textureMap;
     int current_texture_key = 0;
 
-    public AsteroidSpawner(Vector2 ship_start_pos, int width, int height){
+    float asteroidReviveTimer = 0;
+    final float REVIVE_TIME = 5f;
+
+    Ship ship_ref;
+
+    public AsteroidSpawner(Ship ship, int width, int height){
         asteroidContainer = new Asteroid[MAX_ASTEROIDS];
+
         space_width  = width;
         space_height = height;
 
-        ship_start_position = ship_start_pos;
+        ship_ref = ship;
 
         _loadTextures();
         _asteroidInit();
@@ -43,7 +52,7 @@ public class AsteroidSpawner implements Disposable {
             return;
 
         for (int i = 0; i < asteroidContainer.length; i++) {
-            Vector2 buffer = new Vector2(ship_start_position);
+            Vector2 buffer = new Vector2(ship_ref.center);
             asteroidContainer[i] = new Asteroid(buffer.add(_getRandomVector()), _getNextTexture());
         }
     }
@@ -51,6 +60,12 @@ public class AsteroidSpawner implements Disposable {
     public void update(float dt){
         if(asteroidContainer == null)
             return;
+
+        asteroidReviveTimer += dt;
+        if(asteroidReviveTimer > REVIVE_TIME){
+            _reviveAsteroid();
+            asteroidReviveTimer = 0;
+        }
 
         for (Asteroid item: asteroidContainer) {
             if (item !=null)
@@ -70,6 +85,8 @@ public class AsteroidSpawner implements Disposable {
 
     public void renderCollisionShape(ShapeRenderer shapeRenderer){
         for (Asteroid item: asteroidContainer) {
+            if(item == null)
+                continue;
             item.renderCollisionShape(shapeRenderer);
         }
     }
@@ -81,7 +98,10 @@ public class AsteroidSpawner implements Disposable {
 
     public void restart(){
         for (int i = 0; i < asteroidContainer.length; i++) {
-            Vector2 buffer = new Vector2(ship_start_position);
+            if(asteroidContainer[i] == null)
+                continue;
+
+            Vector2 buffer = new Vector2(space_width/2, space_height/2);
             asteroidContainer[i].center = buffer.add(_getRandomVector());
             asteroidContainer[i].restart();
         }
@@ -105,8 +125,17 @@ public class AsteroidSpawner implements Disposable {
         textureMap.put(3, big_med_texture);
     }
 
-    public Asteroid Get(int key){
-        return asteroidContainer[key];
+    public void destroyAsteroid(int key){
+        asteroidContainer[key] = null;
+    }
+
+    private void _reviveAsteroid(){
+        for (int i = 0; i < asteroidContainer.length; i++) {
+            if (asteroidContainer[i] == null) {
+                asteroidContainer[i] = new Asteroid(_getRandomVector(), _getNextTexture());
+                return;
+            }
+        }
     }
 
     public int Length(){
@@ -114,6 +143,11 @@ public class AsteroidSpawner implements Disposable {
     }
 
     public void dispose(){
+        big_med_texture.dispose();
+        big_brown_texture.dispose();
+        medium_med_texture.dispose();
+        medium_brown_texture.dispose();
+
         if(asteroidContainer == null)
             return;
 

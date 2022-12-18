@@ -70,6 +70,6 @@ public class Asteroid extends Object2D implements Disposable {
     }
 
     public void dispose(){
-        texture.dispose();
+
     }
 }

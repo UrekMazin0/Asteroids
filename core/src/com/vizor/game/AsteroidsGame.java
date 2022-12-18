@@ -16,6 +16,7 @@ import com.vizor.game.enemy.AsteroidSpawner;
 import com.vizor.game.hud.FpsLabel;
 import com.vizor.game.hud.GameOverLabel;
 import com.vizor.game.hud.ScoreLabel;
+import com.vizor.game.player.Grond;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
 
@@ -49,11 +50,11 @@ public class AsteroidsGame extends ApplicationAdapter {
 		background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		// ship
-		ship = new Ship(new Vector2((float)Gdx.graphics.getWidth()  /2,
-									(float)Gdx.graphics.getHeight() /2));
+		ship = new Grond(new Vector2((float)Gdx.graphics.getWidth()  /2,
+									 (float)Gdx.graphics.getHeight() /2));
 
 
-		asteroidSpawner = new AsteroidSpawner(ship.center,
+		asteroidSpawner = new AsteroidSpawner(ship,
 											  Gdx.graphics.getWidth(),
 											  Gdx.graphics.getHeight());
 
@@ -138,9 +139,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 	}
 
 	private void restart(){
-		ship.center.x = Gdx.graphics.getWidth()/2;
-		ship.center.y = Gdx.graphics.getHeight()/2;
-
+		ship.restart();
 		asteroidSpawner.restart();
 		score.restart();
 
@@ -152,7 +151,8 @@ public class AsteroidsGame extends ApplicationAdapter {
 		borderHandler.CheckReflection(ship);
 
 		for (int i = 0; i < asteroidSpawner.Length(); i++) {
-			borderHandler.CheckReflection(asteroidSpawner.Get(i));
+			if(asteroidSpawner.asteroidContainer[i] != null)
+				borderHandler.CheckReflection(asteroidSpawner.asteroidContainer[i]);
 		}
 	}
 
@@ -173,5 +173,6 @@ public class AsteroidsGame extends ApplicationAdapter {
 		fps.dispose();
 		score.dispose();
 		loseSound.dispose();
+		backgroundMusic.dispose();
 	}
 }
