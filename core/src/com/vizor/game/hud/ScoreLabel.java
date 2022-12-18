@@ -24,6 +24,10 @@ public class ScoreLabel implements Disposable {
         font.draw(batch, "SCORE: " + score, margin_x, margin_y);
     }
 
+    public void restart(){
+        score = 0;
+    }
+
     public void dispose(){
         font.dispose();
     }

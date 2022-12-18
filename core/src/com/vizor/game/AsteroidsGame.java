@@ -136,6 +136,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		ship.center.y = Gdx.graphics.getHeight()/2;
 
 		asteroidSpawner.restart();
+		score.restart();
 	}
 
 	private void borderReflection(){

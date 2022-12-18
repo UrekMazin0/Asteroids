@@ -1,10 +1,15 @@
 package com.vizor.game.enemy;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AsteroidSpawner implements Disposable {
     Asteroid[] asteroidContainer;
@@ -15,12 +20,21 @@ public class AsteroidSpawner implements Disposable {
     private Vector2 ship_start_position;
     final float RADIUS_AROUND_SHIP = 200;
 
+    Texture big_brown_texture;
+    Texture big_med_texture;
+    Texture medium_brown_texture;
+    Texture medium_med_texture;
+    Map<Integer, Texture> textureMap;
+    int current_texture_key = 0;
+
     public AsteroidSpawner(Vector2 ship_start_pos, int width, int height){
         asteroidContainer = new Asteroid[MAX_ASTEROIDS];
         space_width  = width;
         space_height = height;
 
         ship_start_position = ship_start_pos;
+
+        _loadTextures();
         _asteroidInit();
     }
     
@@ -30,7 +44,7 @@ public class AsteroidSpawner implements Disposable {
 
         for (int i = 0; i < asteroidContainer.length; i++) {
             Vector2 buffer = new Vector2(ship_start_position);
-            asteroidContainer[i] = new Asteroid(buffer.add(_getRandomVector()));
+            asteroidContainer[i] = new Asteroid(buffer.add(_getRandomVector()), _getNextTexture());
         }
     }
 
@@ -71,6 +85,24 @@ public class AsteroidSpawner implements Disposable {
             asteroidContainer[i].center = buffer.add(_getRandomVector());
             asteroidContainer[i].restart();
         }
+    }
+
+    private Texture _getNextTexture(){
+        current_texture_key = current_texture_key == 4? 0 : current_texture_key;
+        return textureMap.get(current_texture_key++);
+    }
+
+    private void _loadTextures(){
+        medium_brown_texture = new Texture(Gdx.files.internal("meteor/medium_brown.png"));
+        medium_med_texture   = new Texture(Gdx.files.internal("meteor/medium_med.png"));
+        big_brown_texture    = new Texture(Gdx.files.internal("meteor/big_brown.png"));
+        big_med_texture      = new Texture(Gdx.files.internal("meteor/big_med.png"));
+
+        textureMap = new HashMap<Integer, Texture>();
+        textureMap.put(0, medium_brown_texture);
+        textureMap.put(1, medium_med_texture);
+        textureMap.put(2, big_brown_texture);
+        textureMap.put(3, big_med_texture);
     }
 
     public Asteroid Get(int key){
