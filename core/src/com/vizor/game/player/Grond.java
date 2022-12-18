@@ -49,12 +49,7 @@ public class Grond extends Ship{
 
     @Override
     public void render(SpriteBatch batch){
-        // draw ship
-        sprite.setRotation(direction.angleDeg(Vector2.Y));
-        sprite.setScale(OBJECT_SCALE);
-        sprite.setPosition( center.x - texture_width/2,
-                            center.y - texture_height/2);
-        sprite.draw(batch);
+        super.render(batch);
 
         // draw shield
         // if we have a lot of health

@@ -78,19 +78,11 @@ public class Militor extends Ship{
             velocity += ACCELERATION;
         }
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !gun_on_cooldown){
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !gun_on_cooldown){
             projectile = new Projectile(new Vector2(center), new Vector2(direction));
             gun_sound.play(0.5f);
             gun_on_cooldown = true;
         }
-    }
-
-    @Override
-    public void restart(){
-        center.x = Gdx.graphics.getWidth()/2;
-        center.y = Gdx.graphics.getHeight()/2;
-
-        health = MAX_HEALTH;
     }
 
     @Override

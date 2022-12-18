@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class AsteroidSpawner implements Disposable {
     public Asteroid[] asteroidContainer;
-    final int MAX_ASTEROIDS = 40;
+    final int MAX_ASTEROIDS = 30;
 
     int space_width;
     int space_height;
