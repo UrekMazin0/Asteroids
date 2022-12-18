@@ -17,6 +17,7 @@ import com.vizor.game.hud.FpsLabel;
 import com.vizor.game.hud.GameOverLabel;
 import com.vizor.game.hud.ScoreLabel;
 import com.vizor.game.player.Grond;
+import com.vizor.game.player.Militor;
 import com.vizor.game.player.Ship;
 import com.vizor.game.shared.BorderHandler;
 
@@ -50,7 +51,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		// ship
-		ship = new Grond(new Vector2((float)Gdx.graphics.getWidth()  /2,
+		ship = new Militor(new Vector2((float)Gdx.graphics.getWidth()  /2,
 									 (float)Gdx.graphics.getHeight() /2));
 
 

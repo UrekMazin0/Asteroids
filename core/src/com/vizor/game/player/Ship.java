@@ -12,9 +12,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.vizor.game.shared.Object2D;
 
 public abstract class Ship extends Object2D implements Disposable {
-    int texture_width;
-    int texture_height;
-
     float velocity;
     Vector2 direction;
     final float MAX_VELOCITY = 400f;

@@ -1,14 +1,21 @@
 package com.vizor.game.collision;
 
 import com.vizor.game.enemy.AsteroidSpawner;
+import com.vizor.game.player.Militor;
+import com.vizor.game.player.Projectile;
 import com.vizor.game.player.Ship;
+
+import java.util.ArrayList;
 
 public class CollisionManager {
     Ship ship;
     AsteroidSpawner asteroids;
+
+    ArrayList<Projectile> lasers;
     public CollisionManager(Ship sh, AsteroidSpawner spawner){
         ship      = sh;
         asteroids = spawner;
+        lasers    = new ArrayList<>();
     }
 
     public boolean updateCollision(){

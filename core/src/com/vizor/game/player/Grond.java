@@ -21,13 +21,13 @@ public class Grond extends Ship{
     public Grond(Vector2 start_pos){
         super(start_pos);
 
-        texture        = new Texture(Gdx.files.internal("ship/grond/ship_1.png"));
+        texture        = new Texture(Gdx.files.internal("ship/grond/ship.png"));
         texture_width  = texture.getWidth();
         texture_height = texture.getHeight();
         sprite         = new Sprite(texture, 0,0,texture_width, texture_height);
         sprite.setScale(OBJECT_SCALE);
 
-        shield_texture = new Texture(Gdx.files.internal("ship/grond/shield_1.png"));
+        shield_texture = new Texture(Gdx.files.internal("ship/grond/shield.png"));
         shield_width   = shield_texture.getWidth();
         shield_height  = shield_texture.getHeight();
         shield_sprite  = new Sprite(shield_texture, 0,0, shield_width, shield_height);
